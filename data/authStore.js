@@ -1,4 +1,4 @@
-import { auth, db, storage } from "./firebase";
+import { auth, db, storage } from "../firebaseConfig";
 import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
@@ -7,6 +7,16 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { Store, registerInDevTools } from "pullstate";
+import {
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  setDoc,
+  getDocs,
+  GeoPoint,
+  query,
+} from "firebase/firestore";
 
 export const AuthStore = new Store({
   isLoggedIn: false,
@@ -16,11 +26,14 @@ export const AuthStore = new Store({
   location: "",
 });
 
-const registerUser = async (email, password, displayName) => {
+export const registerUser = async (email, password, displayName) => {
+  console.log("registering user");
   if (!(await inputValidation(email, password))) {
+    console.log("invalid input");
     return null;
   }
-  try {
+  console.log("registering user");
+  try { 
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -30,30 +43,36 @@ const registerUser = async (email, password, displayName) => {
     await updateProfile(user, {
       displayName: displayName,
     });
+    await saveUserToFirestore(user, "");
     return user;
   } catch (error) {
     console.error(error);
-    return null;
+    return false;
   }
 };
 
-const signInUser = async (email, password) => {
+export const signInUser = async (email, password) => {
+  if (!(await inputValidation(email, password))) {
+    return null;
+  }
   try {
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
+    console.log("signed in");
     return userCredential.user;
   } catch (error) {
     console.error(error);
-    return null;
+    return false;
   }
 };
 
 const getUserFromFirestore = async (user) => {
   try {
     const userRef = doc(db, "users", user.uid);
+    if(!userRef) return console.log("No userRef");
 
     const docSnap = await getDoc(userRef);
     if (docSnap.exists()) {
@@ -70,7 +89,7 @@ const saveUserToFirestore = async (user, location) => {
   try {
     const userRef = doc(db, "users", user.uid);
     await setDoc(userRef, {
-      location: location,
+      location: new GeoPoint(0, 0),
     });
     AuthStore.update((s) => {
       s.location = location;

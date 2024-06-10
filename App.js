@@ -1,21 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { useFonts } from "expo-font";
+import Index from "./tabs/Index";
+
+
+
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  const [fontsLoaded] = useFonts({
+    'Poppins-Bold': require('./assets/Poppins-SemiBold.ttf'),
+    'Poppins-Regular': require('./assets/Poppins-Regular.ttf'),
+    'Poppins-SemiBold': require('./assets/Poppins-Medium.ttf')
 });
+
+return  fontsLoaded ? 
+   <Index />
+  :
+
+null  ; 
+
+}
