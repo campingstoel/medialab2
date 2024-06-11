@@ -5,6 +5,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { GeoFirestore } from "geofirestore";
 import { getReactNativePersistence } from "@firebase/auth/dist/rn/index.js";
+import { getInAppMessaging } from "firebase/in-app-messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBCdZPiC92MSHyTIIMWjMa-ANFj5jPPquU",
@@ -25,3 +26,4 @@ export const auth = initializeAuth(app, {
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const geoFirestore = new GeoFirestore(db);
+export const inAppMessaging = getInAppMessaging(app);

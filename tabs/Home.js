@@ -112,9 +112,9 @@ export default function Home() {
               longitudeDelta: 0.00221,
             }}
             showsUserLocation={true}
-            provider="google"
+            // provider="google"
           >
-            <Heatmap
+            {/* <Heatmap
               points={[
                 {
                   latitude: location.coords.latitude,
@@ -123,7 +123,7 @@ export default function Home() {
                 },
               ]}
               radius={50}
-            />
+            /> */}
           </MapView>
           <View
             style={[
