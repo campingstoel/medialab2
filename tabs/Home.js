@@ -112,6 +112,7 @@ export default function Home() {
               longitudeDelta: 0.00221,
             }}
             showsUserLocation={true}
+            provider="google"
           >
             <Heatmap
               points={[
