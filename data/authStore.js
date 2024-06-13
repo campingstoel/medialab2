@@ -112,6 +112,35 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
   });
 });
 
+export const updateLocationInFirestore = async (user, location) => {
+  try {
+    const userRef = doc(db, "users", user.uid);
+    await setDoc(userRef, {
+      location: new GeoPoint(location.latitude, location.longitude),
+    });
+    AuthStore.update((s) => {
+      s.location = location;
+    });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+//create a function that gets all users where location isnt 0,0 
+export const getUsers = async () => {
+  const q = query(collection(db, "users"));
+  const querySnapshot = await getDocs(q);
+  let users = [];
+  querySnapshot.forEach((doc) => {
+    if (doc.data().location.latitude !== 0 && doc.data().location.longitude !== 0) {
+      users.push(doc.data());
+    }
+  });
+  return users;
+};
+
+
+
 const inputValidation = async (email, password) => {
   // check if email has valid format
   if (email) {
