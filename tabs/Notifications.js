@@ -9,10 +9,22 @@ export default function Notifications({ navigation }) {
   const [selectedNotification, setSelectedNotification] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [readNotifications, setReadNotifications] = useState({});
+  const [isClose, setIsClose] = useState(true);
 
   useEffect(() => {
     setNotifications(notificationsData);
-  }, []);
+    if (isClose) {
+      setNotifications((prevNotifications) => [
+        ...prevNotifications,
+        {
+          id: prevNotifications.length + 1,
+          title: "Het is druk",
+          message:
+            "Je bevindt je nu in een erg druk gebied. Hier zijn een aantal tips om veilig te blijven:\n\n1. Blijf kalm en houd je spullen goed bij je.\n2. Zoek naar de dichtstbijzijnde nooduitgangen en blijf in hun buurt.\n3. Houd je telefoon opgeladen en binnen handbereik.\n4. Blijf in contact met je vrienden en spreek een ontmoetingspunt af voor het geval jullie elkaar kwijtraken.\n5. Vermijd confrontaties en probeer rustig een minder drukke plek op te zoeken.\n\nVoor je eigen veiligheid, overweeg om naar een rustiger gebied te gaan.",
+        },
+      ]);
+    }
+  }, [isClose]);
 
   const handleNotificationPress = (notification) => {
     setSelectedNotification(notification);
@@ -100,10 +112,10 @@ const styles = StyleSheet.create({
   header: {
     height: 100,
     backgroundColor: "#146bab",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: "start",
+    alignItems: "flex-end",
     flexDirection: "row",
-    paddingHorizontal: 20,
+    padding: 20,
   },
   titlebg: {
     backgroundColor: "lightgray",
@@ -114,7 +126,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: "black",
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
     marginLeft: 20,
   },
