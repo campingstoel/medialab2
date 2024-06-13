@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
-  Button,
-  Alert,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
@@ -337,6 +335,7 @@ export default function Home() {
               index.centered,
               { backgroundColor: "white", width: "45%" },
             ]}
+            onPress={() => navigation.navigate("Notifications")}
           >
             <Ionicons name="paper-plane" size={30} color="#083f66" />
           </TouchableOpacity>

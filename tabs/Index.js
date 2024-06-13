@@ -5,31 +5,39 @@ import Login from "./Login";
 import Info from "./Info";
 import Register from "./Register";
 import Home from "./Home";
+import Notifications from "./Notifications"; 
+
 import Ticket from "./Ticket";
+
 
 const Stack = createStackNavigator();
 
 export default function Index() {
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <SafeAreaView />
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Register"
-            component={Register}
-            options={{ headerShown: false }}
-          />
-                    <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
+
+    <NavigationContainer>
+      <SafeAreaView />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Notifications"
+          component={Notifications}
+          options={{ headerShown: false }}
+        />
           <Stack.Screen
             name="Info"
             component={Info}
@@ -40,8 +48,7 @@ export default function Index() {
             component={Ticket}
             options={{ headerShown: false }}
           />
-        </Stack.Navigator>  
-      </NavigationContainer>
-    </SafeAreaProvider>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
