@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "Noodsituatie",
+    "message": "Er is een kleine brand uitgebroken, geen reden voor paniek. Ga naar de dichtstbijzijnde nooduitgang. De dichtsbijzijnde nooduitgang is"
+  },
+  {
+    "id": 2,
+    "title": "Druk Gebied Gedetecteerd",
+    "message": "Je bevindt je nu in een erg druk gebied. Hier zijn een aantal tips om veilig te blijven:\n\n1. Blijf kalm en houd je spullen goed bij je.\n2. Zoek naar de dichtstbijzijnde nooduitgangen en blijf in hun buurt.\n3. Houd je telefoon opgeladen en binnen handbereik.\n4. Blijf in contact met je vrienden en spreek een ontmoetingspunt af voor het geval jullie elkaar kwijtraken.\n5. Vermijd confrontaties en probeer rustig een minder drukke plek op te zoeken.\n\nVoor je eigen veiligheid, overweeg om naar een rustiger gebied te gaan."
+  },
+  {
+    "id": 3,
+    "title": "Alpha stage is vol!",
+    "message": "Om het leuk en veilig te houden hebben we er voor gekozen om de Alpha stage vol te verklaren"
+  }
+]

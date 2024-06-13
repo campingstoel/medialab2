@@ -23,6 +23,7 @@ export default function Home() {
   const [warningAlert, setWarningAlert] = useState(true);
   const [location, setLocation] = useState(null);
   const { displayName } = AuthStore.useState();
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -112,9 +113,9 @@ export default function Home() {
               longitudeDelta: 0.00221,
             }}
             showsUserLocation={true}
-            provider="google"
+            // provider="google"
           >
-            <Heatmap
+            {/* <Heatmap
               points={[
                 {
                   latitude: location.coords.latitude,
@@ -123,7 +124,7 @@ export default function Home() {
                 },
               ]}
               radius={50}
-            />
+            /> */}
           </MapView>
           <View
             style={[
@@ -198,6 +199,7 @@ export default function Home() {
               index.centered,
               { backgroundColor: "white", width: "45%" },
             ]}
+            onPress={() => navigation.navigate("Notifications")}
           >
             <Ionicons name="paper-plane" size={30} color="#083f66" />
           </TouchableOpacity>
