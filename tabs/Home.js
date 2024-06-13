@@ -13,16 +13,19 @@ import { Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { StatusBar } from "react-native";
-import MapView, { Heatmap } from "react-native-maps";
+import MapView, { Heatmap, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import { AuthStore } from "../data/authStore";
+import { SwipeButton } from "@arelstone/react-native-swipe-button";
 
 const { height } = Dimensions.get("window");
 
 export default function Home() {
-  const [warningAlert, setWarningAlert] = useState(true);
+  const [warningAlert, setWarningAlert] = useState(false);
+  const [emergencyAlert, setEmergencyAlert] = useState(false);
   const [location, setLocation] = useState(null);
   const { displayName } = AuthStore.useState();
+  const [amountOfPeople, setAmountOfPeople] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -102,6 +105,44 @@ export default function Home() {
               </TouchableOpacity>
             </View>
           )}
+                    {emergencyAlert && (
+            <View
+              style={[
+                index.fullWidth,
+                index.centered,
+                index.absolute,
+                index.column,
+                index.spaceBetween,
+                {
+                  backgroundColor: "rgba(255,255,255,1)",
+                  padding: 20,
+                  zIndex: 100,
+                  height:150,
+                },
+              ]}
+            >
+                <View style={[index.row]}>
+              <Ionicons name="alert-circle-outline" size={20} color="black" />
+              <Text style={[index.text]}>
+                Let op: Je staat op het punt een noodoproep te doen.
+              </Text>
+                </View>
+              <SwipeButton
+                circleBackgroundColor="#a11212"
+                underlayStyle={{ backgroundColor:'white'}}
+                containerStyle={{ backgroundColor:'#d9d9d9', borderRadius: 50}}
+                title="Noodoproep"
+                titleStyle={[{ color: "black" }, index.bold]}
+                onComplete={
+
+                    () => {
+                        Alert.alert("Noodoproep verzonden");
+                        setEmergencyAlert(false);
+                    }
+                }
+                />
+            </View>
+          )}
 
           <MapView
             style={[index.fullWidth, { height: "100%" }]}
@@ -114,16 +155,44 @@ export default function Home() {
             showsUserLocation={true}
             provider="google"
           >
-            <Heatmap
-              points={[
-                {
-                  latitude: location.coords.latitude,
-                  longitude: location.coords.longitude,
-                  weight: 1,
-                },
-              ]}
-              radius={50}
-            />
+           {/* add heatmap to user location and around it. Make the heatmap at the user location itsself green and around it red add big red spots aswell */}
+           <Heatmap
+            points={[
+              {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                weight: 1,
+              },
+              {
+                latitude: location.coords.latitude + 0.0001,
+                longitude: location.coords.longitude + 0.0001,
+                weight: 1,
+              },
+              {
+                latitude: location.coords.latitude + 0.0001,
+                longitude: location.coords.longitude - 0.0001,
+                weight: 1,
+              },
+              {
+                latitude: location.coords.latitude - 0.0001,
+                longitude: location.coords.longitude + 0.0001,
+                weight: 1,
+              },
+              {
+                latitude: location.coords.latitude - 0.0001,
+                longitude: location.coords.longitude - 0.0001,
+                weight: 1,
+              },
+              
+            
+            ]}
+            radius={40}
+            gradient={{
+              colors: amountOfPeople > 0 ? ["green", "red"] : ["red", "green"],
+              startPoints: [0.1, 0.8],
+              colorMapSize: 256,
+            }}
+          />
           </MapView>
           <View
             style={[
@@ -148,6 +217,7 @@ export default function Home() {
                 index.centered,
                 { backgroundColor: "white", height: 50, maxWidth: 120 },
               ]}
+                onPress={() => setEmergencyAlert(true)}
             >
               <Text
                 style={[
