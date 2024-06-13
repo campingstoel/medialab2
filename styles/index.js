@@ -146,7 +146,7 @@ const index = StyleSheet.create({
   },
 
   mt20: {
-    marginTop: 20,
+    marginTop: 20,    
   },
   mt30: {
     marginTop: 30,
