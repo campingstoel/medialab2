@@ -4,6 +4,7 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import index from "../styles";
 import { signInUser, updateLocationInFirestore } from "../data/authStore";
@@ -25,7 +26,7 @@ export default function Home() {
   const [location, setLocation] = useState(null);
   const { displayName } = AuthStore.useState();
   const [amountOfPeople, setAmountOfPeople] = useState(0);
-  const  {user}= AuthStore.useState();
+  const { user } = AuthStore.useState();
   const [sideBarLeftActive, setSideBarLeftActive] = useState(false);
   const [sideBarRightActive, setSideBarRightActive] = useState(false);
   const navigation = useNavigation();
@@ -66,9 +67,9 @@ export default function Home() {
             { height: 100, backgroundColor: "#146bab" },
           ]}
         >
-          <TouchableOpacity onPress={
-            () => setSideBarLeftActive(!sideBarLeftActive)
-          }>
+          <TouchableOpacity
+            onPress={() => setSideBarLeftActive(!sideBarLeftActive)}
+          >
             <Ionicons name="menu" size={30} color="white" />
           </TouchableOpacity>
           <Text style={[index.bold, { color: "white", fontSize: 20 }]}>
@@ -87,31 +88,35 @@ export default function Home() {
               index.padHor10,
               index.padVer20,
               index.gap5,
-              
-         
-              { height: '100%', backgroundColor: "white", width:'80%', top:100, zIndex:100, left:0 },
+
+              {
+                height: "100%",
+                backgroundColor: "white",
+                width: "80%",
+                top: 100,
+                zIndex: 100,
+                left: 0,
+              },
             ]}
           >
             <TouchableOpacity onPress={() => navigation.navigate("Ticket")}>
-            <Text style={[index.bold, { color: "black", fontSize: 15 }]}>
-              Tickets
-            </Text>
+              <Text style={[index.bold, { color: "black", fontSize: 15 }]}>
+                Tickets
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Info")}>
-            <Text style={[index.bold, { color: "black", fontSize: 15 }]}>
-              Info
-            </Text>
+              <Text style={[index.bold, { color: "black", fontSize: 15 }]}>
+                Info
+              </Text>
             </TouchableOpacity>
             <Text style={[index.bold, { color: "black", fontSize: 15 }]}>
               Account
             </Text>
             <Text style={[index.bold, { color: "black", fontSize: 15 }]}>
               FAQ
-              </Text>
-            </View>
-        )
-
-          }
+            </Text>
+          </View>
+        )}
         {sideBarRightActive && (
           <View
             style={[
@@ -119,7 +124,14 @@ export default function Home() {
               index.padHor10,
               index.padVer20,
               index.gap10,
-              { height: '100%', backgroundColor: "white", width:'80%', top:100, zIndex:100, right:0 },
+              {
+                height: "100%",
+                backgroundColor: "white",
+                width: "80%",
+                top: 100,
+                zIndex: 100,
+                right: 0,
+              },
             ]}
           >
             <Text style={[index.bold, { color: "black", fontSize: 13 }]}>
@@ -171,7 +183,7 @@ export default function Home() {
               </TouchableOpacity>
             </View>
           )}
-                    {emergencyAlert && (
+          {emergencyAlert && (
             <View
               style={[
                 index.fullWidth,
@@ -183,31 +195,31 @@ export default function Home() {
                   backgroundColor: "rgba(255,255,255,1)",
                   padding: 20,
                   zIndex: 100,
-                  height:150,
+                  height: 150,
                 },
               ]}
             >
-                <View style={[index.row]}>
-              <Ionicons name="alert-circle-outline" size={20} color="black" />
-              <Text style={[index.text]}>
-                Let op: Je staat op het punt een noodoproep te doen.
-              </Text>
-                </View>
+              <View style={[index.row]}>
+                <Ionicons name="alert-circle-outline" size={20} color="black" />
+                <Text style={[index.text]}>
+                  Let op: Je staat op het punt een noodoproep te doen.
+                </Text>
+              </View>
               <SwipeButton
                 circleBackgroundColor="#a11212"
-                underlayStyle={{ backgroundColor:'white'}}
-                containerStyle={{ backgroundColor:'#d9d9d9', borderRadius: 50}}
+                underlayStyle={{ backgroundColor: "white" }}
+                containerStyle={{
+                  backgroundColor: "#d9d9d9",
+                  borderRadius: 50,
+                }}
                 title="Noodoproep"
                 titleStyle={[{ color: "black" }, index.bold]}
-                onComplete={
-
-                    () => {
-                        Alert.alert("Noodoproep verzonden");
-                        setEmergencyAlert(false);
-                        updateLocationInFirestore(user, location.coords);
-                    }
-                }
-                />
+                onComplete={() => {
+                  Alert.alert("Noodoproep verzonden");
+                  setEmergencyAlert(false);
+                  updateLocationInFirestore(user, location.coords);
+                }}
+              />
             </View>
           )}
 
@@ -222,44 +234,43 @@ export default function Home() {
             showsUserLocation={true}
             provider="google"
           >
-           {/* add heatmap to user location and around it. Make the heatmap at the user location itsself green and around it red add big red spots aswell */}
-           <Heatmap
-            points={[
-              {
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                weight: 1,
-              },
-              {
-                latitude: location.coords.latitude + 0.0001,
-                longitude: location.coords.longitude + 0.0001,
-                weight: 1,
-              },
-              {
-                latitude: location.coords.latitude + 0.0001,
-                longitude: location.coords.longitude - 0.0001,
-                weight: 1,
-              },
-              {
-                latitude: location.coords.latitude - 0.0001,
-                longitude: location.coords.longitude + 0.0001,
-                weight: 1,
-              },
-              {
-                latitude: location.coords.latitude - 0.0001,
-                longitude: location.coords.longitude - 0.0001,
-                weight: 1,
-              },
-              
-            
-            ]}
-            radius={40}
-            gradient={{
-              colors: amountOfPeople > 0 ? ["green", "red"] : ["red", "green"],
-              startPoints: [0.1, 0.8],
-              colorMapSize: 256,
-            }}
-          />
+            {/* add heatmap to user location and around it. Make the heatmap at the user location itsself green and around it red add big red spots aswell */}
+            <Heatmap
+              points={[
+                {
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude,
+                  weight: 1,
+                },
+                {
+                  latitude: location.coords.latitude + 0.0001,
+                  longitude: location.coords.longitude + 0.0001,
+                  weight: 1,
+                },
+                {
+                  latitude: location.coords.latitude + 0.0001,
+                  longitude: location.coords.longitude - 0.0001,
+                  weight: 1,
+                },
+                {
+                  latitude: location.coords.latitude - 0.0001,
+                  longitude: location.coords.longitude + 0.0001,
+                  weight: 1,
+                },
+                {
+                  latitude: location.coords.latitude - 0.0001,
+                  longitude: location.coords.longitude - 0.0001,
+                  weight: 1,
+                },
+              ]}
+              radius={40}
+              gradient={{
+                colors:
+                  amountOfPeople > 0 ? ["green", "red"] : ["red", "green"],
+                startPoints: [0.1, 0.8],
+                colorMapSize: 256,
+              }}
+            />
           </MapView>
           <View
             style={[
@@ -284,7 +295,7 @@ export default function Home() {
                 index.centered,
                 { backgroundColor: "white", height: 50, maxWidth: 120 },
               ]}
-                onPress={() => setEmergencyAlert(true)}
+              onPress={() => setEmergencyAlert(true)}
             >
               <Text
                 style={[
