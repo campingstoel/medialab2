@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet, Modal } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Modal,
+  TouchableOpacity,
+} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import notificationsData from "../data/notifications.json";
 
 export default function Notifications({ navigation }) {
