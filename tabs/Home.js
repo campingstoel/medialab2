@@ -13,10 +13,11 @@ import { Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { StatusBar } from "react-native";
-import MapView, { Heatmap, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, {Heatmap, PROVIDER_DEFAULT, PROVIDER_GOOGLE} from "react-native-maps";
 import * as Location from "expo-location";
 import { AuthStore } from "../data/authStore";
 import { SwipeButton } from "@arelstone/react-native-swipe-button";
+import DistanceBar from "../components/DistanceBar";
 
 const { height } = Dimensions.get("window");
 
@@ -27,6 +28,7 @@ export default function Home() {
   const { displayName } = AuthStore.useState();
   const [amountOfPeople, setAmountOfPeople] = useState(0);
   const { user } = AuthStore.useState();
+  const {users} = AuthStore.useState()
   const [sideBarLeftActive, setSideBarLeftActive] = useState(false);
   const [sideBarRightActive, setSideBarRightActive] = useState(false);
   const navigation = useNavigation();
@@ -232,47 +234,57 @@ export default function Home() {
               longitudeDelta: 0.00221,
             }}
             showsUserLocation={true}
-            provider="google"
           >
             {/* add heatmap to user location and around it. Make the heatmap at the user location itsself green and around it red add big red spots aswell */}
-            <Heatmap
-              points={[
-                {
-                  latitude: location.coords.latitude,
-                  longitude: location.coords.longitude,
-                  weight: 1,
-                },
-                {
-                  latitude: location.coords.latitude + 0.0001,
-                  longitude: location.coords.longitude + 0.0001,
-                  weight: 1,
-                },
-                {
-                  latitude: location.coords.latitude + 0.0001,
-                  longitude: location.coords.longitude - 0.0001,
-                  weight: 1,
-                },
-                {
-                  latitude: location.coords.latitude - 0.0001,
-                  longitude: location.coords.longitude + 0.0001,
-                  weight: 1,
-                },
-                {
-                  latitude: location.coords.latitude - 0.0001,
-                  longitude: location.coords.longitude - 0.0001,
-                  weight: 1,
-                },
-              ]}
-              radius={40}
-              gradient={{
-                colors:
-                  amountOfPeople > 0 ? ["green", "red"] : ["red", "green"],
-                startPoints: [0.1, 0.8],
-                colorMapSize: 256,
-              }}
-            />
+            {/*<Heatmap*/}
+            {/*  points={[*/}
+            {/*    {*/}
+            {/*      latitude: location.coords.latitude,*/}
+            {/*      longitude: location.coords.longitude,*/}
+            {/*      weight: 1,*/}
+            {/*    },*/}
+            {/*    {*/}
+            {/*      latitude: location.coords.latitude + 0.0001,*/}
+            {/*      longitude: location.coords.longitude + 0.0001,*/}
+            {/*      weight: 1,*/}
+            {/*    },*/}
+            {/*    {*/}
+            {/*      latitude: location.coords.latitude + 0.0001,*/}
+            {/*      longitude: location.coords.longitude - 0.0001,*/}
+            {/*      weight: 1,*/}
+            {/*    },*/}
+            {/*    {*/}
+            {/*      latitude: location.coords.latitude - 0.0001,*/}
+            {/*      longitude: location.coords.longitude + 0.0001,*/}
+            {/*      weight: 1,*/}
+            {/*    },*/}
+            {/*    {*/}
+            {/*      latitude: location.coords.latitude - 0.0001,*/}
+            {/*      longitude: location.coords.longitude - 0.0001,*/}
+            {/*      weight: 1,*/}
+            {/*    },*/}
+            {/*  ]}*/}
+            {/*  radius={40}*/}
+            {/*  gradient={{*/}
+            {/*    colors:*/}
+            {/*      amountOfPeople > 0 ? ["green", "red"] : ["red", "green"],*/}
+            {/*    startPoints: [0.1, 0.8],*/}
+            {/*    colorMapSize: 256,*/}
+            {/*  }}*/}
+            {/*/>*/}
           </MapView>
-          <View
+            <View
+                style={[
+                    index.absolute,
+                    index.fullWidth,
+                    index.top0,
+                    index.left0,
+                    index.zIndex200,
+                ]}
+            >
+                <DistanceBar />
+            </View>
+            <View
             style={[
               index.fullWidth,
               index.absolute,

@@ -241,7 +241,15 @@ const index = StyleSheet.create({
   bold: {
     fontFamily: "Poppins-Bold",
   },
-  
+  top0: {
+    top: 0,
+  },
+  left0: {
+    left: 0,
+  },
+  zIndex200: {
+    zIndex: 200,
+  },
 });
 
 export default index;
