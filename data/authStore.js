@@ -24,6 +24,7 @@ export const AuthStore = new Store({
   initialized: false,
   displayName: "",
   location: "",
+  users: [],
 });
 
 export const registerUser = async (email, password, displayName) => {
@@ -135,6 +136,9 @@ export const getUsers = async () => {
     if (doc.data().location.latitude !== 0 && doc.data().location.longitude !== 0) {
       users.push(doc.data());
     }
+    AuthStore.update((s) => {
+      s.users = users;
+    });
   });
   return users;
 };
